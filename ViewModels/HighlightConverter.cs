@@ -14,10 +14,5 @@ namespace Chess.ViewModels
             var background = values[1] as IBrush ?? Brushes.Transparent;
             return isHighlighted ? Brushes.Moccasin : background;
         }
-
-        public object ConvertBack(IList<object> values, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
