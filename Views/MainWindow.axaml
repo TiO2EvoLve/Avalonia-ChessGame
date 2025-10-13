@@ -3,15 +3,16 @@
         xmlns:vm="using:Chess.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="1600" d:DesignHeight="800"
-        Width="1600" Height="800"
+        mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="600"
+        Width="900" Height="600"
         x:Class="Chess.Views.MainWindow"
+        WindowStartupLocation="CenterOwner"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="Chess">
 
     <Design.DataContext>
-        <vm:MainWindowViewModel/>
+        <vm:MainWindowViewModel />
     </Design.DataContext>
 
     <Window.Resources>
@@ -19,11 +20,12 @@
         <vm:PieceToImageConverter x:Key="PieceToImageConverter" />
     </Window.Resources>
 
-    <Grid ColumnDefinitions="*,*">
-        <ItemsControl ItemsSource="{Binding BoardSquares}">
+    <Grid RowDefinitions="Auto,*" ColumnDefinitions="2*,*" Background="#F1F3F5">
+        <ProgressBar Height="20" Minimum="0" Maximum="100" Value="50" />
+        <ItemsControl Grid.Row="1" Grid.Column="0" ItemsSource="{Binding BoardSquares}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <UniformGrid Rows="8" Columns="8"/>
+                    <UniformGrid Rows="8" Columns="8" />
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
@@ -31,21 +33,83 @@
                     <Border BorderBrush="Transparent" BorderThickness="1">
                         <Border.Background>
                             <MultiBinding Converter="{StaticResource HighlightConverter}">
-                                <Binding Path="IsHighlighted"/>
-                                <Binding Path="Background"/>
+                                <Binding Path="IsHighlighted" />
+                                <Binding Path="Background" />
                             </MultiBinding>
                         </Border.Background>
-                        <Button Command="{Binding SelectCommand}" CommandParameter="{Binding}" 
+                        <Button Command="{Binding SelectCommand}" CommandParameter="{Binding}"
                                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                                 Background="Transparent" BorderThickness="0">
                             <Image Source="{Binding PieceSymbol, Converter={StaticResource PieceToImageConverter}}"
-                                    Stretch="Uniform"
-                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                   Stretch="Uniform"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Button>
                     </Border>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
+
+        <Grid Grid.Row="1" Grid.Column="1" RowDefinitions="Auto,*,*" RowSpacing="10" Margin="10">
+            <StackPanel Orientation="Horizontal" Spacing="10">
+                <PathIcon Width="24" Height="24" Foreground="LightSlateGray" Margin="10,0,0,0">
+                    <PathIcon.Data>
+                        M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z
+                    </PathIcon.Data>
+                </PathIcon>
+                <TextBlock VerticalAlignment="Center" Foreground="Gray" Text="历史记录" FontWeight="Bold"></TextBlock>
+            </StackPanel>
+
+            <Border Grid.Row="1" BorderThickness="1" CornerRadius="10" Background="White" BoxShadow="0 0 5 0 #C0C0C0FF">
+                <Grid RowDefinitions="Auto,*" Margin="10">
+                    <Grid ColumnDefinitions="*,4*,4*" >
+                        <TextBlock Grid.Column="0" HorizontalAlignment="Center" Text="回合" FontWeight="Bold" />
+                        <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="白方" FontWeight="Bold" />
+                        <TextBlock Grid.Column="2" HorizontalAlignment="Center" Text="黑方" FontWeight="Bold" />
+                    </Grid>
+
+                    <ScrollViewer Margin="0,10,0,0" Grid.Row="1" HorizontalAlignment="Stretch" x:Name="MovesScrollViewer"
+                                  VerticalScrollBarVisibility="Auto">
+                        <ItemsControl x:Name="MovesList" ItemsSource="{Binding MoveRecords}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <!-- 改成 VirtualizingStackPanel，支持自动滚动 -->
+                                    <VirtualizingStackPanel />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Spacing="5">
+                                        <Grid ColumnDefinitions="*,4*,4*">
+                                            <TextBlock Grid.Column="0" HorizontalAlignment="Center"
+                                                       Text="{Binding Round}" />
+                                            <TextBlock Grid.Column="1" HorizontalAlignment="Center"
+                                                       Text="{Binding WhiteMove}" />
+                                            <TextBlock Grid.Column="2" HorizontalAlignment="Center"
+                                                       Text="{Binding BlackMove}" />
+                                        </Grid>
+                                        <Separator />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+
+            <StackPanel Grid.Row="2" Margin="20" Spacing="20">
+                <TimePicker />
+                <TimePicker />
+                <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                    <Button HorizontalAlignment="Stretch" Theme="{DynamicResource SolidButton}">获取提示</Button>
+                    <Button Grid.Column="1" Classes="Warning" HorizontalAlignment="Stretch"
+                            Theme="{DynamicResource SolidButton}">悔棋
+                    </Button>
+                </Grid>
+                <Button Background="White" HorizontalAlignment="Stretch">新对局</Button>
+            </StackPanel>
+        </Grid>
+
     </Grid>
 
 </Window>
