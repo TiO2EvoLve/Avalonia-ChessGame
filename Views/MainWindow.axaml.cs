@@ -1,4 +1,5 @@
 using Avalonia.Controls;
+using Chess.ViewModels;
 
 namespace Chess.Views;
 
@@ -7,6 +8,6 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-        DataContext = new Chess.ViewModels.MainWindowViewModel();
+        DataContext = new MainWindowViewModel();
     }
 }
