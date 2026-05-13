@@ -22,7 +22,7 @@ public partial class MainWindowViewModel : ViewModelBase
     [ObservableProperty] private string moves = "";
     public ObservableCollection<ChessMoveRecord> MoveRecords { get; } = new();
 
-    private bool isEngineThinking = false;
+    private bool isEngineThinking;
 
     public MainWindowViewModel()
     {
@@ -55,7 +55,7 @@ public partial class MainWindowViewModel : ViewModelBase
     private string GetInitialPieceSymbol(int row, int col)
     {
         // 简单国际象棋初始布局
-        string[] pieces = { "R", "N", "B", "Q", "K", "B", "N", "R" };
+        string[] pieces = ["R", "N", "B", "Q", "K", "B", "N", "R"];
         if (row == 0) return pieces[col]; // 黑方主力
         if (row == 1) return "P"; // 黑方兵
         if (row == 6) return "p"; // 白方兵
@@ -283,7 +283,7 @@ public partial class MainWindowViewModel : ViewModelBase
                     highlightedSquares.Add(target);
                 }
 
-                // 首步可前进两格
+                // 首次可前进两格
                 if ((piece == "p" && row == 6) || (piece == "P" && row == 1))
                 {
                     int twoRow = row + dir * 2;
@@ -361,18 +361,18 @@ public partial class MainWindowViewModel : ViewModelBase
         // 车
         else if (piece == "r" || piece == "R")
         {
-            HighlightLineMoves(row, col, isWhite, new[] { (0, 1), (0, -1), (1, 0), (-1, 0) });
+            HighlightLineMoves(row, col, isWhite, [(0, 1), (0, -1), (1, 0), (-1, 0)]);
         }
         // 象
         else if (piece == "b" || piece == "B")
         {
-            HighlightLineMoves(row, col, isWhite, new[] { (1, 1), (1, -1), (-1, 1), (-1, -1) });
+            HighlightLineMoves(row, col, isWhite, [(1, 1), (1, -1), (-1, 1), (-1, -1)]);
         }
         // 后
         else if (piece == "q" || piece == "Q")
         {
             HighlightLineMoves(row, col, isWhite,
-                new[] { (0, 1), (0, -1), (1, 0), (-1, 0), (1, 1), (1, -1), (-1, 1), (-1, -1) });
+                [(0, 1), (0, -1), (1, 0), (-1, 0), (1, 1), (1, -1), (-1, 1), (-1, -1)]);
         }
     }
 
