@@ -11,7 +11,6 @@
     </Application.DataTemplates>
   
     <Application.Styles>
-        <semi:SemiTheme/>
-        <semi:SemiPopupAnimations /> <!-- 开启弹窗框动画 -->
+        <FluentTheme/>
     </Application.Styles>
 </Application>

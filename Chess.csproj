@@ -24,10 +24,16 @@
             <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
         </PackageReference>
         <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-        <PackageReference Include="Semi.Avalonia" Version="11.3.7" />
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="Assets\chess\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Directory.Build.props" />
+      <None Update="stockfish.exe">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 </Project>

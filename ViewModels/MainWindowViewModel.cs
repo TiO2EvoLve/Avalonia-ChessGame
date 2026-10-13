@@ -435,6 +435,5 @@ public partial class MainWindowViewModel : ViewModelBase
     private void GetBestMove()
     {
         Engine.SetPosition(Moves);
-        Console.WriteLine(Engine.GetBestMove(1));
     }
 }
